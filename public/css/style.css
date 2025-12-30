@@ -1,6 +1,30 @@
-/* Police type journal */
+/* Police fluide et moderne */
 body {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: "Inter", system-ui, -apple-system, Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Titres style magazine moderne */
+h1,
+h2,
+h3,
+.navbar-brand,
+.card-title {
+  font-family: "Poppins", "Inter", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Texte des articles plus doux */
+.article-content,
+.article-content-full {
+  font-family: "Inter", sans-serif;
+  line-height: 1.75;
+}
+
+/* Lettrine plus élégante */
+.modal-text .article-content-full p:first-of-type::first-letter {
+  font-family: "Poppins", sans-serif;
 }
 
 /* Logo / titre */
