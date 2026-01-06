@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="navbar"></div>
+
+    <div class="container mt-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title">Ajouter un formulaire</h3>
+
+          <form id="formAdmin">
+            <div class="mb-3">
+              <input
+                class="form-control"
+                type="text"
+                id="titre"
+                placeholder="Titre"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <select class="form-select" id="categorie">
+                <option>amour</option>
+                <option>santé</option>
+                <option>bien etre</option>
+                <option>autres</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <textarea
+                class="form-control"
+                id="message"
+                rows="4"
+                placeholder="Message"
+                required
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <input
+                class="form-control"
+                type="date"
+                id="datePublication"
+                required
+              />
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit">
+              Sauvegarder
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="navbar.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>

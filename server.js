@@ -1,33 +1,66 @@
-// server.js
 const express = require("express");
-const path = require("path");
-const morgan = require("morgan");
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
-dotenv.config();
-connectDB();
+const Form = require("./models/Form");
 
 const app = express();
 
-// Middlewares
-app.use(morgan("dev"));
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static("public"));
+const uri =
+  "mongodb+srv://vaudranxgroup_db_user:jyOqziCKZJJ6oxpY@mvpfoot.87dxzzn.mongodb.net/?appName=mindset";
+mongoose
+  .connect(uri)
+  .then(() => console.log("MongoDB connecté"))
+  .catch((err) => console.log(err));
 
-// Fichiers statiques (frontend)
-app.use(express.static(path.join(__dirname, "public")));
-
-// Routes API
-const articlesApi = require("./routes/articlesApi");
-app.use("/api/articles", articlesApi);
-
-// Catch-all pour le front
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 mvpfrik lancé sur http://localhost:${PORT}`);
+// Sauvegarder un formulaire
+app.post("/api/forms", async (req, res) => {
+  try {
+    const nouveau = new Form({
+      titre: req.body.titre,
+      categorie: req.body.categorie,
+      message: req.body.message,
+      datePublication: req.body.datePublication,
+    });
+
+    await nouveau.save();
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+});
+
+// Récupérer tous les formulaires
+app.get("/api/forms", async (req, res) => {
+  try {
+    const forms = await Form.find();
+
+    res.json(forms);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// Archiver = supprimer
+app.delete("/api/forms/:id", async (req, res) => {
+  try {
+    await Form.findByIdAndDelete(req.params.id);
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.listen(3000, () => {
+  console.log("Serveur lancé sur http://localhost:3000");
 });
